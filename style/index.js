@@ -12,7 +12,7 @@ document.getElementById("log").addEventListener("click", function(){
 
     if (at== "admin" && pa=="admin123"){
       alert("log in successful");
-      window.location.assign("style/log.html")
+      window.location.assign("/log.html")
     
     } else {
         alert("log in failed");
