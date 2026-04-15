@@ -1,7 +1,7 @@
 let currentab= "all";
 let allc, oc, cc,counts;
 
-
+let allIssues = [];
 
 function up(){
     counts ={
@@ -68,6 +68,8 @@ lcard();
 
 const discard = (les) => {
     const lcon = document.getElementById("all-c")
+    allIssues = les;
+    renderIssues(les);
     lcon.innerHTML ="";
     
 //     {
@@ -91,27 +93,31 @@ const discard = (les) => {
 //     },
     for (let los of les){
         const bdiv = document.createElement("div");
-        bdiv.innerHTML =`
-                    <div class="bg-white border-1 border-slate-200 shadow rounded  ${los.status == "open" ? "border-t-green-500 border-t-3" : "border-t-violet-500 border-t-3"}">
-                    <div class="border-b-1 h-52 border-slate-200 p-6 shadow">
+        bdiv.innerHTML = `
+                <div onclick='openModal(${JSON.stringify(los)})'
+                     class="cursor-pointer bg-white border border-slate-200 shadow rounded 
+                     ${los.status == "open" ? "border-t-green-500 border-t-4" : "border-t-violet-500 border-t-4"}">
+
+                    <div class="border-b h-52 border-slate-200 p-6">
                     <div class="flex justify-between">
-                        ${
-                            los.status == "open"
-                            ? `<img src="/style/assets/Open-Status.png"></img>`
-                            : `<img src="/style/assets/Closed- Status .png"></img>`
+                        ${los.status == "open"
+                            ? `<img src="/style/assets/Open-Status.png">`
+                            : `<img src="/style/assets/Closed- Status .png">`
                         }
-                        ${los.priority}
+                        <span class="text-xs font-semibold">${los.priority}</span>
                     </div>
+
                     <h4 class="text-sm font-semibold pt-2">${los.title}</h4>
-                    <p class="text-slate-400 py-1 text-xs">${los.description}</p>
-                    <div class="flex gap-2 mt-0.5">
-                        <p class="px-2 py-2 text-xs bg-[#FECACA] text-[#EF4444] rounded-full font-semibold">${los.labels[0]}   </p>
-                        <p class="px-2 py-2 text-xs bg-[#FFF8DB] text-[#D97706] rounded-full font-semibold">${los.labels[1]}</p>
+                                <p class="text-slate-400 py-1 text-xs">${los.description}</p>
+
+                    <div class="flex gap-2 mt-1">
+                        <span class="px-2 py-1 text-xs bg-red-100 text-red-500 rounded-full">${los.labels[0]}</span>
+                        <span class="px-2 py-1 text-xs bg-yellow-100 text-yellow-600 rounded-full">${los.labels[1]}</span>
                     </div>
-                    </div>
-                    <p class="pl-6 text-slate-400 text-sm">#${los.id} by ${los.author}</p>
-                    <p class="pl-6 text-slate-400 text-sm">${los.createdAt[8]+los.createdAt[9]+"/"+los.createdAt[5]+los.createdAt[6]+"/"+los.createdAt[8]+los.createdAt[0]+los.createdAt[1]+los.createdAt[2]+los.createdAt[3]}</p>
-                    </div>
+                </div>
+
+                <p class="pl-6 text-slate-400 text-sm">#${los.id} by ${los.author}</p>
+            </div>
         `;
         lcon.append(bdiv);
 
@@ -126,3 +132,17 @@ const discard = (les) => {
 
     up();
 };
+
+function openModal(data) {
+  document.getElementById("modalOverlay").classList.remove("hidden");
+  document.getElementById("modalOverlay").classList.add("flex");
+
+  document.getElementById("m-title").innerText = data.title;
+  document.getElementById("m-desc").innerText = data.description;
+  document.getElementById("m-assignee").innerText = data.assignee;
+  document.getElementById("m-priority").innerText = data.priority;
+}
+
+function closeModal() {
+  document.getElementById("modalOverlay").classList.add("hidden");
+}
