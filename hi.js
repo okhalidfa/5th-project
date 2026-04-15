@@ -56,3 +56,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 });
+
+
+const lcard = () => {
+    fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues")
+    .then((res) => res.json())
+    .then((json) => discard(json.data));
+
+};
+
+const discrad = (les) => {
+    const lcon = document.getElementById("all-c")
+    lcon.innerHTML ="";
+
+    const div = document.createElement("div");
+    
+    
+
+}
