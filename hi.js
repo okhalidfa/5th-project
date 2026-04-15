@@ -67,10 +67,9 @@ const lcard = () => {
 lcard();
 
 const discard = (les) => {
-    const lcon = document.getElementById("all-c")
-    allIssues = les;
-    renderIssues(les);
-    lcon.innerHTML ="";
+    allIssues = les;   
+    renderIssues(les); 
+};
     
 //     {
 //   "status": "success",
@@ -91,47 +90,99 @@ const discard = (les) => {
 //       "createdAt": "2024-01-15T10:30:00Z",
 //       "updatedAt": "2024-01-15T10:30:00Z"
 //     },
-    for (let los of les){
+
+
+function renderIssues(les) {
+    allc.innerHTML = "";
+    oc.innerHTML = "";
+    cc.innerHTML = "";
+
+    for (let los of les) {
+
         const bdiv = document.createElement("div");
+
+        bdiv.className = `cursor-pointer bg-white border border-slate-200 shadow rounded 
+        ${los.status == "open" ? "border-t-green-500 border-t-4" : "border-t-violet-500 border-t-4"}`;
+
         bdiv.innerHTML = `
-                <div onclick='openModal(${JSON.stringify(los)})'
-                     class="cursor-pointer bg-white border border-slate-200 shadow rounded 
-                     ${los.status == "open" ? "border-t-green-500 border-t-4" : "border-t-violet-500 border-t-4"}">
-
-                    <div class="border-b h-52 border-slate-200 p-6">
-                    <div class="flex justify-between">
-                        ${los.status == "open"
-                            ? `<img src="/style/assets/Open-Status.png">`
-                            : `<img src="/style/assets/Closed- Status .png">`
-                        }
-                        <span class="text-xs font-semibold">${los.priority}</span>
-                    </div>
-
-                    <h4 class="text-sm font-semibold pt-2">${los.title}</h4>
-                                <p class="text-slate-400 py-1 text-xs">${los.description}</p>
-
-                    <div class="flex gap-2 mt-1">
-                        <span class="px-2 py-1 text-xs bg-red-100 text-red-500 rounded-full">${los.labels[0]}</span>
-                        <span class="px-2 py-1 text-xs bg-yellow-100 text-yellow-600 rounded-full">${los.labels[1]}</span>
-                    </div>
+            <div class="border-b h-52 border-slate-200 p-6">
+                <div class="flex justify-between">
+                    ${los.status == "open"
+                        ? `<img src="/style/assets/Open-Status.png">`
+                        : `<img src="/style/assets/Closed- Status .png">`
+                    }
+                    <span class="text-xs font-semibold">${los.priority}</span>
                 </div>
 
-                <p class="pl-6 text-slate-400 text-sm">#${los.id} by ${los.author}</p>
+                <h4 class="text-sm font-semibold pt-2">${los.title}</h4>
+                <p class="text-slate-400 py-1 text-xs">${los.description}</p>
+
+                <div class="flex gap-2 mt-1">
+                    <span class="px-2 py-1 text-xs bg-red-100 text-red-500 rounded-full">${los.labels[0]}</span>
+                    <span class="px-2 py-1 text-xs bg-yellow-100 text-yellow-600 rounded-full">${los.labels[1]}</span>
+                </div>
             </div>
+
+            <p class="pl-6 text-slate-400 text-sm">#${los.id} by ${los.author}</p>
         `;
-        lcon.append(bdiv);
 
+        bdiv.addEventListener("click", () => openModal(los));
 
+        allc.appendChild(bdiv);
+
+        const clone = bdiv.cloneNode(true);
+        clone.addEventListener("click", () => openModal(los));
 
         if (los.status == "open") {
-            oc.appendChild(bdiv.cloneNode(true));
+            oc.appendChild(clone);
         } else {
-            cc.appendChild(bdiv.cloneNode(true));
+            cc.appendChild(clone);
         }
     }
 
     up();
-};
+}
+//     for (let los of les){
+//         const bdiv = document.createElement("div");
+//         bdiv.innerHTML = `
+//                 <div onclick='openModal(${JSON.stringify(los)})'
+//                      class="cursor-pointer bg-white border border-slate-200 shadow rounded 
+//                      ${los.status == "open" ? "border-t-green-500 border-t-4" : "border-t-violet-500 border-t-4"}">
+
+//                     <div class="border-b h-52 border-slate-200 p-6">
+//                     <div class="flex justify-between">
+//                         ${los.status == "open"
+//                             ? `<img src="/style/assets/Open-Status.png">`
+//                             : `<img src="/style/assets/Closed- Status .png">`
+//                         }
+//                         <span class="text-xs font-semibold">${los.priority}</span>
+//                     </div>
+
+//                     <h4 class="text-sm font-semibold pt-2">${los.title}</h4>
+//                                 <p class="text-slate-400 py-1 text-xs">${los.description}</p>
+
+//                     <div class="flex gap-2 mt-1">
+//                         <span class="px-2 py-1 text-xs bg-red-100 text-red-500 rounded-full">${los.labels[0]}</span>
+//                         <span class="px-2 py-1 text-xs bg-yellow-100 text-yellow-600 rounded-full">${los.labels[1]}</span>
+//                     </div>
+//                 </div>
+
+//                 <p class="pl-6 text-slate-400 text-sm">#${los.id} by ${los.author}</p>
+//             </div>
+//         `;
+//         lcon.append(bdiv);
+
+
+
+//         if (los.status == "open") {
+//             oc.appendChild(bdiv.cloneNode(true));
+//         } else {
+//             cc.appendChild(bdiv.cloneNode(true));
+//         }
+//     }
+
+//     up();
+// };
 
 function openModal(data) {
   document.getElementById("modalOverlay").classList.remove("hidden");
@@ -145,4 +196,18 @@ function openModal(data) {
 
 function closeModal() {
   document.getElementById("modalOverlay").classList.add("hidden");
+}
+
+
+function handleSearch() {
+    const value = document.getElementById("searchInput").value.toLowerCase();
+
+    const filtered = allIssues.filter(los =>
+        los.title.toLowerCase().includes(value) ||
+        los.description.toLowerCase().includes(value) ||
+        los.author.toLowerCase().includes(value) ||
+        los.labels.join(" ").toLowerCase().includes(value)
+    );
+
+    renderIssues(filtered);
 }
