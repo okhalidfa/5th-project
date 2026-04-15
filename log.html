@@ -72,7 +72,7 @@
 
         <!-- Tabs -->
         <div class="bg-white rounded-2xl border-2 border-slate-100 px-6 py-4">
-        <div class="flex flex-wrap gap-2 mb-2 ">
+          <div class="flex flex-wrap gap-2 mb-2 ">
           <button
             id="all"
             onclick="stab('all')"
@@ -94,40 +94,66 @@
           >
             Closed
           </button>
+          </div>
         </div>
-        </div>
-        <div class="flex rounded-2xl items-center  justify-between flex-wrap gap-2 mb-4 mt-3 bg-white ">
-          <div class="flex gap-2 p-4">
-            <img class="bg-[#ECE4FF] rounded-3xl" src="/style/assets/Aperture.png" alt="" srcset="">
-            <div>
-              <h2 class="font-syne text-xl font-bold text-navy"><span id="co">50</span> Issues</h2>
-              <p class="text-slate-400">Track and manage your project issues</p>
+        <div class=" rounded-2xl items-center  justify-between flex-wrap gap-2 mb-4 mt-3 bg-white ">
+            <div class="flex items-center  justify-between gap-2 mb-4 mt-3 pr-4 border-b-1 border-slate-200">
+              <div class="flex gap-2 p-4">
+               <img class="bg-[#ECE4FF] rounded-3xl" src="/style/assets/Aperture.png" alt="" srcset="">
+               <div>
+                <h2 class="font-syne text-xl font-bold text-navy"><span id="co">50</span> Issues</h2>
+                <p class="text-slate-400">Track and manage your project issues</p>
+               </div>
+              </div>
+              <div class="flex gap-1 items-center ">
+               <p><div class="gap-2 w-3 h-3 bg-green-500 rounded-full"></div> open<div class="w-3 h-3 bg-violet-500 rounded-full"></div> closed</p>
+              </div>
             </div>
-          </div>
-          <div class="flex gap-1 items-center">
-            <p><div class="gap-2 w-3 h-3 bg-green-500 rounded-full"></div> open<div class="w-3 h-3 bg-violet-500 rounded-full"></div> closed</p>
-          </div>
+
+          <!-- card stared -->
+        <div class="flex gap-4">
+            <section id="all-c" class="grid grid-cols-4 gap-4 p-4 w-full">
+                <div class="bg-white border-1 border-slate-200 shadow text-center rounded">
+                    <div class="border-b-1 border-slate-200 p-6 shadow">
+                    <div class="flex justify-between">
+                        <img src="/style/assets/Open-Status.png" alt="" srcset="">
+                        <p>High</p>
+                    </div>
+                    <h4>fux naviagattion</h4>
+                    <p>the navigation</p>
+                    <div class="flex">
+                        types
+                        types
+                    </div>
+                    </div>
+                    <p>#1 by jon</p>
+                    <p>1/12/2009</p>
+                    
+
+
+                </div>
+                <!-- <div class="bg-blue-200 p-6 text-center rounded">2</div>
+                <div class="bg-blue-200 p-6 text-center rounded">3</div>
+                <div class="bg-blue-200 p-6 text-center rounded">4</div> -->
+
+
+
+            </section>
+            <section class="flex flex-col gap-2" id="i-c">
+
+            </section>
+            <section class="flex flex-col gap-2" id="r-c">
+
+            </section>  
+        </div>
+          
         </div>
 
         <!-- Job Cards -->
-        <div class="flex flex-col gap-4">
-          <section id="all-c" class="flex flex-col gap-2">
-            <div>
-                
-            </div>
-
-          </section>
-          <section class="flex flex-col gap-2" id="i-c">
-
-          </section>
-          <section class="flex flex-col gap-2" id="r-c">
-
-          </section>
-        </div>
+        
 
         
         </div>
-      </main>
     </div>
     <script src="hi.js"></script>
   </body>
