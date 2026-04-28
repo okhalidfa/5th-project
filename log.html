@@ -3,166 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Github Issues Tracer</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
-</head>
-<body>
-
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://kit.fontawesome.com/cc9e8f4940.js" crossorigin="anonymous"></script>
 
     <style type="text/tailwindcss">
       * {
-          font-family: "Geist", sans-serif;
-        }  
+        font-family: "Geist", sans-serif;
+      }
+
       @theme {
-        --font-syne: "Syne", sans-serif;
-        --font-dm: "DM Sans", sans-serif;
         --color-navy: #1d3557;
         --color-teal: #2a9d8f;
         --color-coral: #e76f51;
 
         --animate-fade-up: fadeUp 0.3s ease forwards;
         @keyframes fadeUp {
-          0% {
-            opacity: 0;
-            transform: translateY(10px);
-          }
-          100% {
-            opacity: 1;
-            transform: translateY(0);
-          }
+          0%   { opacity: 0; transform: translateY(10px); }
+          100% { opacity: 1; transform: translateY(0); }
         }
       }
     </style>
+</head>
 
+<body class="bg-slate-100">
 
-    <script src="https://kit.fontawesome.com/cc9e8f4940.js" crossorigin="anonymous"></script>
-  </head>
-  
+  <!-- ─── NAVBAR ─── -->
+  <nav class="bg-white shadow-sm sticky top-0 z-40">
+    <div class="px-4 sm:px-8 lg:px-15 py-4 flex flex-col sm:flex-row gap-3 sm:gap-0 sm:justify-between sm:items-center">
 
-  <body class="bg-slate-100 font-dm min-h-screen">
-    <nav class="bg-white " >
-        <div class="px-15 py-5 flex justify-between ">
-          <div class="flex gap-1">
-          <img class="w-[20px] h-[20px]" src="/style/assets/github-logo.png" alt="">
-          <p class="font-semibold">Github Issues Tracer</p>
-          </div>
-          <div class="flex gap-2">
-           <input id="searchInput" type="text" placeholder="Search Issue"
-           class="input input-bordered w-full max-w-xs" />
+      <!-- Logo -->
+      <div class="flex items-center gap-2">
+        <img class="w-5 h-5" src="/style/assets/github-logo.png" alt="GitHub">
+        <p class="font-semibold text-sm sm:text-base">Github Issues Tracer</p>
+      </div>
 
-           <button onclick="handleSearch()" class="btn btn-primary">
-              Search
-           </button>
-        </div>
-    </nav>
-    <header class="px-5 py-6 md:max-w-6xl mx-auto">
+      <!-- Search row -->
+      <div class="flex gap-2 w-full sm:w-auto">
+        <input
+          id="searchInput"
+          type="text"
+          placeholder="Search issue…"
+          class="input input-bordered flex-1 sm:w-64 text-sm"
+        />
+        <button onclick="handleSearch()" class="btn btn-primary shrink-0 text-sm px-4">
+          Search
+        </button>
+      </div>
 
-    </header>
-    
+    </div>
+  </nav>
 
-    <div class="md:max-w-6xl mx-auto">
-      
+  <!-- ─── MAIN ─── -->
+  <main class="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto py-6 space-y-4">
 
-        <!-- Divider -->
-        <hr class="border-slate-200 mb-6" />
+    <hr class="border-slate-200" />
 
-        <!-- Section Header -->
+    <!-- Tabs card -->
+    <div class="bg-white rounded-2xl border border-slate-100 px-4 sm:px-6 py-4">
+      <div class="flex flex-wrap gap-2">
+        <button id="all"    onclick="stab('all')"    class="btn text-slate-500 w-24 sm:w-30">All</button>
+        <button id="open"   onclick="stab('open')"   class="btn text-slate-500 w-24 sm:w-30">Open</button>
+        <button id="closed" onclick="stab('closed')" class="btn text-slate-500 w-24 sm:w-30">Closed</button>
+      </div>
+    </div>
 
-        <!-- Tabs -->
-        <div class="bg-white rounded-2xl border-2 border-slate-100 px-6 py-4">
-          <div class="flex flex-wrap gap-2 mb-2 ">
-          <button
-            id="all"
-            onclick="stab('all')"
-            class="btn text-slate-500 w-30"
-          >
-            All
-          </button>
-          <button
-            id="open"
-            onclick="stab('open')"
-            class="btn text-slate-500 w-30"
-          >
-            Open
-          </button>
-          <button
-            id="closed"
-            onclick="stab('closed')"
-            class="btn text-slate-500 w-30"
-          >
-            Closed
-          </button>
+    <!-- Issues panel -->
+    <div class="rounded-2xl bg-white overflow-hidden">
+
+      <!-- Panel header -->
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-4 sm:px-6 py-4 border-b border-slate-200">
+
+        <div class="flex items-center gap-3">
+          <img class="bg-[#ECE4FF] rounded-3xl w-10 h-10 shrink-0" src="/style/assets/Aperture.png" alt="">
+          <div>
+            <h2 class="text-lg sm:text-xl font-bold text-navy">
+              <span id="co">0</span> Issues
+            </h2>
+            <p class="text-slate-400 text-xs sm:text-sm">Track and manage your project issues</p>
           </div>
         </div>
-        <div class=" rounded-2xl items-center  justify-between flex-wrap gap-2 mb-4 mt-3 bg-white ">
-            <div class="flex items-center  justify-between gap-2 mb-4 mt-3 pr-4 border-b-1 border-slate-200">
-              <div class="flex gap-2 p-4">
-               <img class="bg-[#ECE4FF] rounded-3xl" src="/style/assets/Aperture.png" alt="" srcset="">
-               <div>
-                <h2 class="font-syne text-xl font-bold text-navy"><span id="co">50</span> Issues</h2>
-                <p class="text-slate-400">Track and manage your project issues</p>
-               </div>
-              </div>
-              <div class="flex gap-1 items-center ">
-               <p><div class="gap-2 w-3 h-3 bg-green-500 rounded-full"></div> open<div class="w-3 h-3 bg-violet-500 rounded-full"></div> closed</p>
-              </div>
-            </div>
 
-          <!-- card stared -->
-        <div class="flex gap-4">
-            <section id="all-c" class="grid grid-cols-4 gap-4 p-4 w-full">
-                
-                
-
-
-
-            </section>
-            <section class="grid grid-cols-4 gap-4 p-4 w-full" id="i-c">
-
-            </section>
-            <section class="grid grid-cols-4 gap-4 p-4 w-full" id="r-c">
-
-            </section>  
+        <!-- Legend -->
+        <div class="flex items-center gap-3 text-xs sm:text-sm text-slate-500">
+          <span class="flex items-center gap-1.5">
+            <span class="w-3 h-3 rounded-full bg-green-500 inline-block"></span> Open
+          </span>
+          <span class="flex items-center gap-1.5">
+            <span class="w-3 h-3 rounded-full bg-violet-500 inline-block"></span> Closed
+          </span>
         </div>
-        <!-- Overlay -->
-        <div id="modalOverlay" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
 
-        <!-- Modal Box -->
-        <div class="bg-white w-[400px] rounded-2xl p-6 shadow-xl animate-fade-up">
+      </div>
 
-        <h2 id="m-title" class="text-lg font-bold mb-2">Title</h2>
-  
-        <p id="m-desc" class="text-sm text-slate-500 mb-4">
-           Description here
-        </p>
+      <!-- Card grids — 1 col mobile · 2 col tablet · 4 col desktop -->
+      <div class="p-4">
 
-        <div class="flex justify-between text-sm mb-4">
+        <section id="all-c"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        </section>
+
+        <section id="i-c"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 hidden">
+        </section>
+
+        <section id="r-c"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 hidden">
+        </section>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ─── MODAL ─── -->
+  <div id="modalOverlay"
+       class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50 px-4">
+
+    <div class="bg-white w-full max-w-sm sm:max-w-md rounded-2xl p-5 sm:p-6 shadow-xl animate-fade-up">
+
+      <h2 id="m-title" class="text-base sm:text-lg font-bold mb-2">Title</h2>
+
+      <p id="m-desc" class="text-xs sm:text-sm text-slate-500 mb-4">Description here</p>
+
+      <div class="flex flex-col sm:flex-row sm:justify-between gap-1 text-sm mb-4">
         <p><span class="font-semibold">Assignee:</span> <span id="m-assignee"></span></p>
         <p><span class="font-semibold">Priority:</span> <span id="m-priority" class="text-red-500"></span></p>
-        </div>
+      </div>
 
-        <button onclick="closeModal()" class="btn btn-primary w-full">
-         Close
-        </button>
-        </div>
-        </div>
-          
-        </div>
+      <button onclick="closeModal()" class="btn btn-primary w-full">Close</button>
 
-        <!-- Job Cards -->
-        
-
-        
-        </div>
     </div>
-    <script src="hi.js"></script>
-  </body>
+  </div>
 
-</html>
+  <script src="hi.js"></script>
 </body>
 </html>
